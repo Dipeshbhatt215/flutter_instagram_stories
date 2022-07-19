@@ -13,9 +13,9 @@ class Story {
   final User user;
 
   const Story({
-    @required this.url,
-    @required this.media,
-    @required this.duration,
-    @required this.user,
+    required this.url,
+    required this.media,
+    required this.duration,
+    required this.user,
   });
 }

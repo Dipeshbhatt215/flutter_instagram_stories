@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
 class StoryScreen extends StatefulWidget {
   final List<Story> stories;
 
-  const StoryScreen({@required this.stories});
+  const StoryScreen({required this.stories});
 
   @override
   _StoryScreenState createState() => _StoryScreenState();
@@ -37,9 +37,9 @@ class StoryScreen extends StatefulWidget {
 
 class _StoryScreenState extends State<StoryScreen>
     with SingleTickerProviderStateMixin {
-  PageController _pageController;
-  AnimationController _animController;
-  VideoPlayerController _videoController;
+  late PageController _pageController;
+  late AnimationController _animController;
+  late VideoPlayerController _videoController;
   int _currentIndex = 0;
 
   @override
@@ -74,7 +74,7 @@ class _StoryScreenState extends State<StoryScreen>
   void dispose() {
     _pageController.dispose();
     _animController.dispose();
-    _videoController?.dispose();
+    _videoController.dispose();
     super.dispose();
   }
 
@@ -101,7 +101,7 @@ class _StoryScreenState extends State<StoryScreen>
                     );
                   case MediaType.video:
                     if (_videoController != null &&
-                        _videoController.value.initialized) {
+                        _videoController.value.isInitialized) {
                       return FittedBox(
                         fit: BoxFit.cover,
                         child: SizedBox(
@@ -188,7 +188,7 @@ class _StoryScreenState extends State<StoryScreen>
     }
   }
 
-  void _loadStory({Story story, bool animateToPage = true}) {
+  void _loadStory({required Story story, bool animateToPage = true}) {
     _animController.stop();
     _animController.reset();
     switch (story.media) {
@@ -197,12 +197,12 @@ class _StoryScreenState extends State<StoryScreen>
         _animController.forward();
         break;
       case MediaType.video:
-        _videoController = null;
-        _videoController?.dispose();
+        // _videoController = null;
+        _videoController.dispose();
         _videoController = VideoPlayerController.network(story.url)
           ..initialize().then((_) {
             setState(() {});
-            if (_videoController.value.initialized) {
+            if (_videoController.value.isInitialized) {
               _animController.duration = _videoController.value.duration;
               _videoController.play();
               _animController.forward();
@@ -226,10 +226,10 @@ class AnimatedBar extends StatelessWidget {
   final int currentIndex;
 
   const AnimatedBar({
-    Key key,
-    @required this.animController,
-    @required this.position,
-    @required this.currentIndex,
+    Key? key,
+    required this.animController,
+    required this.position,
+    required this.currentIndex,
   }) : super(key: key);
 
   @override
@@ -286,8 +286,8 @@ class UserInfo extends StatelessWidget {
   final User user;
 
   const UserInfo({
-    Key key,
-    @required this.user,
+    Key? key,
+    required this.user,
   }) : super(key: key);
 
   @override

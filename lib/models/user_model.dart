@@ -5,7 +5,7 @@ class User {
   final String profileImageUrl;
 
   const User({
-    @required this.name,
-    @required this.profileImageUrl,
+    required this.name,
+    required this.profileImageUrl,
   });
 }
